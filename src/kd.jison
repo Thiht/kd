@@ -1,30 +1,31 @@
 %lex
 %%
 
-','                     return ',';
-':'                     return ':';
-'='                     return '=';
-'('                     return '(';
-')'                     return ')';
-'['                     return '[';
-']'                     return ']';
-'<<'                    return '<<';
-'>>'                    return '>>';
-'|'                     return 'DECL';
-'+'                     return 'PUBLIC';
-'-'                     return 'PRIVATE';
-'#'                     return 'PROTECTED';
-'~'                     return 'PACKAGE';
-'/'                     return 'DERIVED';
-'_'                     return 'CLASSIFIER';
+// syntaxe à revoir...
+'='\s*'`'.+?'`'                       { yytext = yytext.substring(1, yytext.length - 1).trim().substring(1); return 'VALUE'; }
+'['([0-9]+|\*)(\.\.([0-9]+|\*))?']'   { yytext = yytext.substring(1, yytext.length - 1); return 'MULTIPLICITY';}
+'{'(.|\n)*?'}'                        { yytext = yytext.substring(1, yytext.length - 1); return 'CONSTRAINT'; } /* remove the braces with substring */
+'"'(.|\n)*?'"'                        { yytext = yytext.substring(1, yytext.length - 1); return 'COMMENT'; } /* remove the quotes with substring */
+[a-zA-Z][a-zA-Z0-9_]*                 return 'IDENT';
 
-([0-9]+|\*)(\.\.([0-9]+|\*))?   return 'MULTIPLICITY';
-'{'(.|\n)*?'}'                  { yytext = yytext.substring(1, yytext.length - 1); return 'CONSTRAINT'; } /* remove the braces with substring */
-'"'(.|\n)*?'"'                  { yytext = yytext.substring(1, yytext.length - 1); return 'COMMENT'; } /* remove the quotes with substring */
-[a-zA-Z][a-zA-Z0-9_]*           return 'IDENT';
+','       return ',';
+':'       return ':';
+'('       return '(';
+')'       return ')';
+'['       return '[';
+']'       return ']';
+'<<'      return '<<';
+'>>'      return '>>';
+'|'       return 'DECL';
+'+'       return 'PUBLIC';
+'-'       return 'PRIVATE';
+'#'       return 'PROTECTED';
+'~'       return 'PACKAGE';
+'/'       return 'DERIVED';
+'_'       return 'CLASSIFIER';
 
-\s+                     /* skip whitespace */
-<<EOF>>                 return 'EOF';
+\s+       /* skip whitespace */
+<<EOF>>   return 'EOF';
 
 /lex
 
@@ -78,12 +79,12 @@ member_continuation
 	;
 
 member_attribute_operation
-	: '(' params ')' member_type /* operation */
-	| member_type /* attribute */
+	: '(' params ')' member_type constraint /* operation */
+	| member_type multiplicity default_value constraint /* attribute */
 	;
 
 member_type
-	: ':' IDENT multiplicity constraint
+	: ':' IDENT
 	;
 
 params
@@ -97,7 +98,7 @@ param_sequence
 	;
 
 param
-	: IDENT ':' IDENT multiplicity
+	: IDENT ':' IDENT multiplicity default_value
 	;
 
 comment
@@ -120,12 +121,12 @@ constraint
 	;
 
 multiplicity
-	: '[' MULTIPLICITY ']'
+	: MULTIPLICITY
 	| /* epsilon */
 	;
 
 default_value
-	: '='
+	: VALUE
 	| /* epsilon */
 	;
 
