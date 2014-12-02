@@ -1,0 +1,11 @@
+{
+  "name": "kd",
+  "version": "1.0.0",
+  "description": "Draw UML class diagrams from a simple language",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thibaut Rousseau",
+  "license": "MIT"
+}
