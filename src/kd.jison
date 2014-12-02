@@ -1,7 +1,6 @@
 %lex
 %%
 
-// syntaxe à revoir...
 '='\s*'`'.+?'`'                       { yytext = yytext.substring(1, yytext.length - 1).trim().substring(1); return 'VALUE'; }
 '['([0-9]+|\*)(\.\.([0-9]+|\*))?']'   { yytext = yytext.substring(1, yytext.length - 1); return 'MULTIPLICITY';}
 '{'(.|\n)*?'}'                        { yytext = yytext.substring(1, yytext.length - 1); return 'CONSTRAINT'; } /* remove the braces with substring */
