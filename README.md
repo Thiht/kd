@@ -1,7 +1,7 @@
 # kd
 kd stands for Klass Diagram. In some programming languages, the spelling "klass" is sometimes used instead of "class" to name a variable when the latter is already used as a syntactic keyword, that's why I decided to go with this name. Also kd sounds kool.
 
-kd's goal is to generate class diagrams for the web from a simple language. Ultimately, it should be embeddable as simply as [Mathjax](http://www.mathjax.org/) and generate SVG or canvas or HTML or image or all of these (I didn't decide yet) in a clean way. Due to its strict syntax, it should also be able to generate arbitrary code (Java, C++, PHP, etc.).
+kd's goal is to generate class diagrams for the web from a simple language. Ultimately, it should be embeddable as simply as [Mathjax](http://www.mathjax.org/) and generate SVG or canvas or HTML or image or all of these (I didn't decide yet) in a clean way. Due to its strict syntax, it should also be able to generate arbitrary code (Java, C++, PHP, etc.). kd also aims to be readable even without being compiled, that's why its syntax fits to the UML standard as much as possible.
 
 kd uses [Jison](http://zaach.github.io/jison/) to generate the language parser.
 
@@ -54,13 +54,14 @@ kd uses [Jison](http://zaach.github.io/jison/) to generate the language parser.
     - Type
     - Constraint
     - Multiplicity
+    - Default value
 * Operation declaration
     - Stereotype
     - Visibility
     - Derivable/Classifier
     - Name
     - Type
-    - Parameters (including multiplicity)
+    - Parameters (including multiplicity and default value)
     - Constraint
 
 ### To do
@@ -74,10 +75,12 @@ kd uses [Jison](http://zaach.github.io/jison/) to generate the language parser.
     - Native support of `{abstract}`
         + if a method is abstract, the class is set as abstract
 * **Diagram generation**
-* Attributes
-    - default value
+    - [Raphaël](http://raphaeljs.com/)? (hard to use and probably a lot of changes to perform)
+    - [Viz](https://github.com/mdaines/viz.js/)? (slow, but maybe there's a way to fork it and keep only the interesting parts)
+    - From scratch? (hard)
+    - [Dagre](https://github.com/cpettitt/dagre)? Looks cool http://www.nomnoml.com/
+* Modify the syntax of the default value for attributes and parameters (currently it's ``= `value` ``)
 * Operation parameters
-    - default value
     - direction? (`in`, `out`, `inout`)
 * Package
     - the standard syntax is `Package1::...::PackageN::ClassName` but it will hardly be possible to follow it exactly
